@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.jlcb.fordelivfood.ApiFordelivfoodApplication;
 import com.jlcb.fordelivfood.domain.model.Cozinha;
+import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
 
 public class ConsultaCozinhaMain {
 
@@ -16,11 +17,11 @@ public class ConsultaCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
-		List<Cozinha> cozinhas = cadastroCozinha.listar();
+		List<Cozinha> todasCozinhas = cozinhaRepository.listar();
 		
-		for (Cozinha cozinha : cozinhas) {
+		for (Cozinha cozinha : todasCozinhas) {
 			System.out.println(cozinha.getNome());
 		}
 	}

@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.jlcb.fordelivfood.ApiFordelivfoodApplication;
 import com.jlcb.fordelivfood.domain.model.Cozinha;
+import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
 
 public class InclsuaoCozinhaMain {
 
@@ -14,7 +15,7 @@ public class InclsuaoCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha cozinha1 = new Cozinha();
 		cozinha1.setNome("Brasileira");
@@ -22,8 +23,8 @@ public class InclsuaoCozinhaMain {
 		Cozinha cozinha2 = new Cozinha();
 		cozinha2.setNome("Japonesa");
 		
-		cozinha1 = cadastroCozinha.salvar(cozinha1);
-		cozinha2 = cadastroCozinha.salvar(cozinha2);
+		cozinha1 = cozinhaRepository.salvar(cozinha1);
+		cozinha2 = cozinhaRepository.salvar(cozinha2);
 		
 		System.out.printf("%d - %s\n", cozinha1.getId(), cozinha1.getNome());
 		System.out.printf("%d - %s\n", cozinha2.getId(), cozinha2.getNome());

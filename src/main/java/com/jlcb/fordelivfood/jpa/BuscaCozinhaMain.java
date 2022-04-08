@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.jlcb.fordelivfood.ApiFordelivfoodApplication;
 import com.jlcb.fordelivfood.domain.model.Cozinha;
+import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
 
 public class BuscaCozinhaMain {
 
@@ -13,10 +14,10 @@ public class BuscaCozinhaMain {
 		ApplicationContext applicationContext = new SpringApplicationBuilder(ApiFordelivfoodApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
-
-		Cozinha cozinha = cadastroCozinha.buscar(1L);
-
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
+		
+		Cozinha cozinha = cozinhaRepository.buscar(1L);
+		
 		System.out.println(cozinha.getNome());
 	}
 
