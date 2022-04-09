@@ -8,36 +8,36 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jlcb.fordelivfood.domain.model.Cozinha;
-import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
+import com.jlcb.fordelivfood.domain.model.Estado;
+import com.jlcb.fordelivfood.domain.repository.EstadoRepository;
 
 @Component
-public class EstadoRepositoryImpl implements CozinhaRepository {
+public class EstadoRepositoryImpl implements EstadoRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
 	@Override
-	public List<Cozinha> listar() {
-		return entityManager.createQuery("FROM Cozinha", Cozinha.class).getResultList();
+	public List<Estado> listar() {
+		return entityManager.createQuery("FROM Estado", Estado.class).getResultList();
 	}
 	
 	@Override
-	public Cozinha buscar(Long id) {
-		return entityManager.find(Cozinha.class, id);
-	}
-	
-	@Override
-	@Transactional
-	public Cozinha salvar(Cozinha cozinha) {
-		return entityManager.merge(cozinha);
+	public Estado buscar(Long id) {
+		return entityManager.find(Estado.class, id);
 	}
 	
 	@Override
 	@Transactional
-	public void remover(Cozinha cozinha) {
-		cozinha = buscar(cozinha.getId());
-		entityManager.remove(cozinha);
+	public Estado salvar(Estado estado) {
+		return entityManager.merge(estado);
+	}
+	
+	@Override
+	@Transactional
+	public void remover(Estado estado) {
+		estado = buscar(estado.getId());
+		entityManager.remove(estado);
 	}
 
 }
