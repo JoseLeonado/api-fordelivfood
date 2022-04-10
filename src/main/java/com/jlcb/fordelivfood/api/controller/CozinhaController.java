@@ -19,7 +19,7 @@ public class CozinhaController {
 	private CozinhaRepository cozinhaRepository;
 	
 	@GetMapping
-	public List<Cozinha> listar1() {
+	public List<Cozinha> listar() {
 		return cozinhaRepository.listar();
 	}
 	
