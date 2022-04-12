@@ -6,13 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jlcb.fordelivfood.domain.model.Cozinha;
 import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
 
-@Component
+@Repository
 public class CozinhaRepositoryImpl implements CozinhaRepository {
 
 	@PersistenceContext
@@ -21,6 +21,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 	@Override
 	public List<Cozinha> listar() {
 		return entityManager.createQuery("FROM Cozinha", Cozinha.class).getResultList();
+	}
+	
+	@Override
+	public List<Cozinha> consultarPorNome(String nome) {
+		return entityManager.createQuery("FROM Cozinha WHERE nome LIKE :nome", Cozinha.class)
+				.setParameter("nome", "%" + nome + "%")
+				.getResultList();
 	}
 	
 	@Override
