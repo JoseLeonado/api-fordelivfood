@@ -60,7 +60,6 @@ public class CozinhaController {
 		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
 
 		if (cozinhaAtual.isPresent()) {
-//			cozinhaAtual.setNome(cozinha.getNome());
 			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
 
 			Cozinha cozinhaSalva = cadastroCozinha.salvar(cozinhaAtual.get());
