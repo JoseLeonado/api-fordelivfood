@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.jlcb.fordelivfood.domain.model.Restaurante;
@@ -14,7 +15,10 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
 	
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 	
-	List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinha);
+//	@Query("FROM Restaurante WHERE nome LIKE %:nome% AND cozinha.id = :id")
+	List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinha);
+	
+//	List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinha);
 	
 	Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
 	
