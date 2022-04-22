@@ -13,6 +13,8 @@ import com.jlcb.fordelivfood.domain.model.Cozinha;
 import com.jlcb.fordelivfood.domain.model.Restaurante;
 import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
 import com.jlcb.fordelivfood.domain.repository.RestauranteRepository;
+import com.jlcb.fordelivfood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.jlcb.fordelivfood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 
 @RestController
 @RequestMapping("/testes")
@@ -67,6 +69,13 @@ public class TesteController {
 	@GetMapping("/restaurantes/count-por-cozinha")
 	public int restaurantesCountPorCozinha(Long cozinhaId) {
 		return restauranteRepository.countByCozinhaId(cozinhaId);
+	}
+	
+	@GetMapping("/restaurantes/com-frete-gratis")
+	public List<Restaurante> restaurantesComFreteGratis(String nome) {
+		RestauranteComFreteGratisSpec comFreteGratis = new RestauranteComFreteGratisSpec();
+		RestauranteComNomeSemelhanteSpec comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
+		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
 	}
 	
 }
