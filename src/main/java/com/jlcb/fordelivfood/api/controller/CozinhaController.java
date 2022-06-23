@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.jlcb.fordelivfood.domain.exception.EntidadeEmUsoException;
 import com.jlcb.fordelivfood.domain.exception.EntidadeNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.model.Cozinha;
 import com.jlcb.fordelivfood.domain.repository.CozinhaRepository;
@@ -85,7 +85,13 @@ public class CozinhaController {
 	@DeleteMapping("{cozinhaId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId) {
-		cadastroCozinha.excluir(cozinhaId);
+		try {
+			cadastroCozinha.excluir(cozinhaId);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//			throw new ServerWebInputException(e.getMessage());
+		}
+		
 	}
 
 }
