@@ -19,7 +19,7 @@ public interface RestauranteRepository
 	// esse restaurante não será retornado usando JOIN FETCH r.formasPagamento.
 	// Para resolver isso, temos que usar LEFT JOIN FETCH r.formasPagamento
 //	@Query("from Restaurante r JOIN FETCH r.cozinha JOIN FETCH r.formasPagamento")
-	@Query("FROM Restaurante r INNER JOIN FETCH r.cozinha LEFT JOIN FETCH r.formasPagamento")
+	@Query("FROM Restaurante r INNER JOIN FETCH r.cozinha")
 	List<Restaurante> findAll();
 	
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
