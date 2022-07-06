@@ -51,7 +51,7 @@ public class RestauranteController {
 		try {
 			return cadastroRestaurante.salvar(restaurante);
 		} catch (EntidadeNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
+			throw new NegocioException(e.getMessage(), e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class RestauranteController {
 		try {
 			return cadastroRestaurante.salvar(restauranteAtual);
 		} catch (EntidadeNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
+			throw new NegocioException(e.getMessage(), e);
 		}
 	}
 
