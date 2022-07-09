@@ -2,6 +2,8 @@ package com.jlcb.fordelivfood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,19 +39,11 @@ public class CozinhaController {
 	@GetMapping("/{cozinhaId}")
 	public Cozinha buscar(@PathVariable Long cozinhaId) {
 		return cadastroCozinha.buscarOuFalhar(cozinhaId);
-
-//		Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
-//
-//		if (cozinha.isPresent()) {
-//			return ResponseEntity.ok(cozinha.get());
-//		}
-//
-//		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+	public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
 		return cadastroCozinha.salvar(cozinha);
 	}
 
