@@ -18,7 +18,7 @@ import com.jlcb.fordelivfood.domain.service.CadastroCozinhaService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class CadastroCozinhaIntegrationTests {
+class CadastroCozinhaIT {
 	
 	@Autowired
 	private CadastroCozinhaService service;
