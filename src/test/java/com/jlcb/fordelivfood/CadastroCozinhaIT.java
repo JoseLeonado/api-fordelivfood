@@ -1,65 +1,36 @@
 package com.jlcb.fordelivfood;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static io.restassured.RestAssured.given;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.validation.ConstraintViolationException;
-
-import com.jlcb.fordelivfood.domain.exception.CozinhaNaoEncontradaException;
-import com.jlcb.fordelivfood.domain.exception.EntidadeEmUsoException;
-import com.jlcb.fordelivfood.domain.model.Cozinha;
-import com.jlcb.fordelivfood.domain.service.CadastroCozinhaService;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CadastroCozinhaIT {
 	
-	@Autowired
-	private CadastroCozinhaService service;
+	@LocalServerPort
+	private int port;
 
 	@Test
-	public void deveAtribuirId_QuandoCadastrarCozinhaComDadosCorretos() {
-		Cozinha novaCozinha = new Cozinha();
-		novaCozinha.setNome("Chinesa");
+	public void deveRetornaStatus200_QuandoConsultarCozinhas() {
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		
-		novaCozinha = service.salvar(novaCozinha);
-		
-		assertThat(novaCozinha).isNotNull();
-		assertThat(novaCozinha.getId()).isNotNull();
+		given()
+			.basePath("/cozinhas")
+			.port(port)
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.statusCode(HttpStatus.OK.value());
 	}
-	
-	@Test
-	public void deveFalhar_QuandoCadastrarCozinhaSemNome() {
-		Cozinha novaCozinha = new Cozinha();
-		novaCozinha.setNome(null);
 
-		ConstraintViolationException erroEsperado =
-				Assertions.assertThrows(ConstraintViolationException.class, () -> {
-					service.salvar(novaCozinha);
-				});
-
-		assertThat(erroEsperado).isNotNull();
-	}
-	
-	@Test
-	public void deveFalhar_QuandoExcluirCozinhaEmUso() {
-        EntidadeEmUsoException exception = Assertions.assertThrows(EntidadeEmUsoException.class, () -> {
-            service.excluir(1L);
-         });
-         assertThat(exception).isNotNull();
-	}
-	
-	@Test
-	public void deveFalhar_quandoExcluirCozinhaInexistente() {
-        CozinhaNaoEncontradaException exception = Assertions.assertThrows(CozinhaNaoEncontradaException.class, () -> {
-            service.excluir(100L);
-        });
-        assertThat(exception).isNotNull();
-	}
 }
