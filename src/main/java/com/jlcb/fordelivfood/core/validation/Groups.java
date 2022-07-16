@@ -1,4 +1,4 @@
-package com.jlcb.fordelivfood;
+package com.jlcb.fordelivfood.core.validation;
 
 public interface Groups {
 
