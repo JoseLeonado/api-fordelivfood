@@ -11,6 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.validation.ConstraintViolationException;
 
+import com.jlcb.fordelivfood.domain.exception.CozinhaNaoEncontradaException;
+import com.jlcb.fordelivfood.domain.exception.EntidadeEmUsoException;
 import com.jlcb.fordelivfood.domain.model.Cozinha;
 import com.jlcb.fordelivfood.domain.service.CadastroCozinhaService;
 
@@ -43,5 +45,21 @@ class CadastroCozinhaIntegrationTests {
 				});
 
 		assertThat(erroEsperado).isNotNull();
+	}
+	
+	@Test
+	public void deveFalhar_QuandoExcluirCozinhaEmUso() {
+        EntidadeEmUsoException exception = Assertions.assertThrows(EntidadeEmUsoException.class, () -> {
+            service.excluir(1L);
+         });
+         assertThat(exception).isNotNull();
+	}
+	
+	@Test
+	public void deveFalhar_quandoExcluirCozinhaInexistente() {
+        CozinhaNaoEncontradaException exception = Assertions.assertThrows(CozinhaNaoEncontradaException.class, () -> {
+            service.excluir(100L);
+        });
+        assertThat(exception).isNotNull();
 	}
 }
