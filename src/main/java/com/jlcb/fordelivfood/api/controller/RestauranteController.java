@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jlcb.fordelivfood.api.model.RestauranteDTO;
 import com.jlcb.fordelivfood.core.validation.ValidacaoException;
 import com.jlcb.fordelivfood.domain.exception.CozinhaNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.exception.NegocioException;
@@ -54,8 +55,12 @@ public class RestauranteController {
 	}
 
 	@GetMapping("/{restauranteId}")
-	public Restaurante buscar(@PathVariable Long restauranteId) {
-		return cadastroRestaurante.buscarOuFalhar(restauranteId);
+	public RestauranteDTO buscar(@PathVariable Long restauranteId) {
+		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
+		
+		RestauranteDTO restauranteDTO = null; //conversão da entidade Restaurante para RestauranteDTO
+		
+		return restauranteDTO;
 	}
 
 	@PostMapping
