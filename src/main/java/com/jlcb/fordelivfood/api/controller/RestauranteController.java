@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jlcb.fordelivfood.api.assembler.RestauranteDTOAssembler;
+import com.jlcb.fordelivfood.api.assembler.RestauranteInputDisassembler;
 import com.jlcb.fordelivfood.api.model.RestauranteDTO;
 import com.jlcb.fordelivfood.api.model.input.RestauranteInput;
 import com.jlcb.fordelivfood.domain.exception.CozinhaNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.exception.NegocioException;
-import com.jlcb.fordelivfood.domain.model.Cozinha;
 import com.jlcb.fordelivfood.domain.model.Restaurante;
 import com.jlcb.fordelivfood.domain.repository.RestauranteRepository;
 import com.jlcb.fordelivfood.domain.service.CadastroRestauranteService;
@@ -38,6 +38,9 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteDTOAssembler restauranteDTOAssembler;
+	
+	@Autowired
+	private RestauranteInputDisassembler restauranteInputDisassembler;
 
 	@GetMapping
 	public List<RestauranteDTO> listar() {
@@ -55,7 +58,7 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteDTO adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
-			Restaurante restaurante = toDomainObject(restauranteInput);
+			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 			
 			return restauranteDTOAssembler.toDTO(cadastroRestaurante.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
@@ -66,7 +69,7 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public RestauranteDTO atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
-			Restaurante restaurante = toDomainObject(restauranteInput);
+			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 			Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 			BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
@@ -75,19 +78,6 @@ public class RestauranteController {
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
-	}
-	
-	private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteInput.getNome());
-		restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-		
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteInput.getCozinha().getId());
-		
-		restaurante.setCozinha(cozinha);
-		
-		return restaurante;
 	}
 
 }
