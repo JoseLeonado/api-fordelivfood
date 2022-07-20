@@ -5,10 +5,12 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.jlcb.fordelivfood.api.model.EstadoDTO;
 import com.jlcb.fordelivfood.domain.model.Estado;
 
+@Component
 public class EstadoDTOAssembler {
 	
     @Autowired
