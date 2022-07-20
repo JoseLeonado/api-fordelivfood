@@ -25,6 +25,5 @@ public class RestauranteDTOAssembler {
 				.map(restaurante -> toDTO(restaurante))
 				.collect(Collectors.toList());
 	}
-	
-	
+
 }
