@@ -20,6 +20,7 @@ import com.jlcb.fordelivfood.api.assembler.RestauranteDTOAssembler;
 import com.jlcb.fordelivfood.api.assembler.RestauranteInputDisassembler;
 import com.jlcb.fordelivfood.api.model.RestauranteDTO;
 import com.jlcb.fordelivfood.api.model.input.RestauranteInput;
+import com.jlcb.fordelivfood.domain.exception.CidadeNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.exception.CozinhaNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.exception.NegocioException;
 import com.jlcb.fordelivfood.domain.model.Restaurante;
@@ -61,7 +62,7 @@ public class RestauranteController {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 			
 			return restauranteDTOAssembler.toDTO(cadastroRestaurante.salvar(restaurante));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
 	}
@@ -74,7 +75,7 @@ public class RestauranteController {
 			restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 			
 			return restauranteDTOAssembler.toDTO(cadastroRestaurante.salvar(restauranteAtual));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
 	}
