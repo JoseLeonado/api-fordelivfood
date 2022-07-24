@@ -44,7 +44,7 @@ public class FormaPagamentoController {
     public List<FormaPagamentoDTO> listar() {
         List<FormaPagamento> todasFormasPagamentos = formaPagamentoRepository.findAll();
         
-        return formaPagamentoDTOAssembler.toCollectionModel(todasFormasPagamentos);
+        return formaPagamentoDTOAssembler.toCollectionDTO(todasFormasPagamentos);
     }
     
     @GetMapping("/{formaPagamentoId}")
