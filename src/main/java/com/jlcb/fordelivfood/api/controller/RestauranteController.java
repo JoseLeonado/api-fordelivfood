@@ -23,6 +23,7 @@ import com.jlcb.fordelivfood.api.model.input.RestauranteInput;
 import com.jlcb.fordelivfood.domain.exception.CidadeNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.exception.CozinhaNaoEncontradaException;
 import com.jlcb.fordelivfood.domain.exception.NegocioException;
+import com.jlcb.fordelivfood.domain.exception.RestauranteNaoEncontradoException;
 import com.jlcb.fordelivfood.domain.model.Restaurante;
 import com.jlcb.fordelivfood.domain.repository.RestauranteRepository;
 import com.jlcb.fordelivfood.domain.service.CadastroRestauranteService;
@@ -90,6 +91,27 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.inativar(restauranteId);
+	}
+	
+	@PutMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativarMultiplo(@RequestBody List<Long> restaurantesIds) {
+		try {
+			cadastroRestaurante.ativar(restaurantesIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
+	
+	@DeleteMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativarMultiplo(@RequestBody List<Long> restaurantesIds) {
+		try {
+			cadastroRestaurante.inativar(restaurantesIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+		
 	}
 	
 	@PutMapping("/{restauranteId}/abertura")
