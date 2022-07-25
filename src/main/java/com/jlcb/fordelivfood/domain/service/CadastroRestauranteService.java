@@ -9,6 +9,7 @@ import com.jlcb.fordelivfood.domain.model.Cidade;
 import com.jlcb.fordelivfood.domain.model.Cozinha;
 import com.jlcb.fordelivfood.domain.model.FormaPagamento;
 import com.jlcb.fordelivfood.domain.model.Restaurante;
+import com.jlcb.fordelivfood.domain.model.Usuario;
 import com.jlcb.fordelivfood.domain.repository.RestauranteRepository;
 
 @Service
@@ -25,6 +26,9 @@ public class CadastroRestauranteService {
 	
 	@Autowired
 	private CadastroFormaPagamentoService cadastroFormaPagamento;
+	
+	@Autowired
+	private CadastroUsuarioService cadastroUsuario;
 
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
@@ -82,6 +86,22 @@ public class CadastroRestauranteService {
 		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
 		
 		restaurante.adicionarFormaPagamento(formaPagamento);
+	}
+	
+	@Transactional
+	public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+	    Restaurante restaurante = buscarOuFalhar(restauranteId);
+	    Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+	    
+	    restaurante.removerResponsavel(usuario);
+	}
+
+	@Transactional
+	public void associarResponsavel(Long restauranteId, Long usuarioId) {
+	    Restaurante restaurante = buscarOuFalhar(restauranteId);
+	    Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+	    
+	    restaurante.adicionarResponsavel(usuario);
 	}
 	
 	public Restaurante buscarOuFalhar(Long restauranteId) {
